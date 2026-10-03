@@ -19,7 +19,10 @@ const CreateManualJournalTool = CreateXeroTool(
   Retrieve a list of account codes in Xero to use for the journal lines.\
   Journal lines must contain at least two individual journal lines with account codes, \
   use basic accounting account types pairing when not specified, \
-  and make sure journal line pairs have credit and debit balanced.",
+  and make sure journal line pairs have credit and debit balanced.\
+  Journal lines can optionally be assigned up to 2 tracking categories each, \
+  passed as tracking: [{ name, option, trackingCategoryID }]. \
+  Retrieve the tracking category names, IDs and option names with the list-tracking-categories tool.",
   {
     narration: z
       .string()

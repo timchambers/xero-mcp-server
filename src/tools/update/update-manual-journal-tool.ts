@@ -15,7 +15,12 @@ const trackingSchema = z.object({
 const UpdateManualJournalTool = CreateXeroTool(
   "update-manual-journal",
   "Update a manual journal in Xero. Only works on draft manual journals.\
-  Do not modify line items or parameters that have not been specified by the user.",
+  Do not modify line items or parameters that have not been specified by the user.\
+  All journal lines must be provided, as the lines sent replace the existing lines, \
+  including any tracking already on them. \
+  Journal lines can optionally be assigned up to 2 tracking categories each, \
+  passed as tracking: [{ name, option, trackingCategoryID }]. \
+  Retrieve the tracking category names, IDs and option names with the list-tracking-categories tool.",
   {
     narration: z
       .string()
