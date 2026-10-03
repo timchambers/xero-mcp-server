@@ -5,6 +5,13 @@ import { ensureError } from "../../helpers/ensure-error.js";
 import { LineAmountTypes, ManualJournal } from "xero-node";
 import { updateXeroManualJournal } from "../../handlers/update-xero-manual-journal.handler.js";
 
+const trackingSchema = z.object({
+  name: z.string().describe("The name of the tracking category. Can be obtained from the list-tracking-categories tool"),
+  option: z.string().describe("The name of the tracking option. Can be obtained from the list-tracking-categories tool"),
+  trackingCategoryID: z.string().describe("The ID of the tracking category. \
+    Can be obtained from the list-tracking-categories tool"),
+});
+
 const UpdateManualJournalTool = CreateXeroTool(
   "update-manual-journal",
   "Update a manual journal in Xero. Only works on draft manual journals.\
@@ -31,7 +38,15 @@ const UpdateManualJournalTool = CreateXeroTool(
             .string()
             .optional()
             .describe("Optional tax type for the manual journal line"),
-          // TODO: TODO: tracking can be added here
+          tracking: z
+            .array(trackingSchema)
+            .max(2)
+            .optional()
+            .describe(
+              "Optional tracking categories and options for the journal line (up to 2). \
+              Can be obtained from the list-tracking-categories tool. \
+              Only use if prompted by the user.",
+            ),
         }),
       )
       .describe(
